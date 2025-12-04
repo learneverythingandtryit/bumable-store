@@ -241,10 +241,10 @@
                 
                 <div class="nav-menu" id="nav-menu">
                     <ul class="nav-list">
-                        <li><a href="../index.html" class="nav-link">Home</a></li>
-                        <li><a href="shop.html" class="nav-link">Shop</a></li>
-                        <li><a href="../index.html#about" class="nav-link">Our Story</a></li>
-                        <li><a href="../index.html#contact" class="nav-link">Contact Us</a></li>
+                        <li><a href="../" class="nav-link">Home</a></li>
+                        <li><a href="../shop/" class="nav-link">Shop</a></li>
+                        <li><a href="../#about" class="nav-link">Our Story</a></li>
+                        <li><a href="../#contact" class="nav-link">Contact Us</a></li>
                     </ul>
                 </div>
                 
@@ -441,7 +441,7 @@
             const totalElement = document.getElementById('total');
 
             if (cartItems.length === 0) {
-                window.location.href = 'shop.html';
+                window.location.href = '../shop/';
                 return;
             }
 
@@ -519,7 +519,7 @@
                 const cartItems = JSON.parse(localStorage.getItem('bumableCart') || '[]');
                 if (cartItems.length === 0) {
                     alert('Your cart is empty. Please add items before placing an order.');
-                    window.location.href = 'shop.html';
+                    window.location.href = '../shop/';
                     return;
                 }
                 orderData.items = cartItems;
@@ -678,7 +678,7 @@ You will receive a confirmation email shortly.
                 
                 // Redirect to success page
                 setTimeout(() => {
-                    window.location.href = 'order-success.html';
+                    window.location.href = '../success/';
                 }, 1000);
                 
             } catch (error) {

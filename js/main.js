@@ -95,12 +95,12 @@ function updateProductDisplay() {
     const products = window.productManager.getAllProducts();
     
     // Update home page if we're on it
-    if (window.location.pathname.includes('index.html') || window.location.pathname === '/' || window.location.pathname === '') {
+    if (window.location.pathname.includes('index.html') || window.location.pathname === '/' || window.location.pathname === '' || window.location.pathname.endsWith('/')) {
         updateHomePageProducts(products);
     }
     
     // Update shop page if we're on it
-    if (window.location.pathname.includes('shop.html')) {
+    if (window.location.pathname.includes('shop') && (window.location.pathname.endsWith('/') || window.location.pathname.includes('shop/'))) {
         updateShopPageProducts(products);
     }
 }

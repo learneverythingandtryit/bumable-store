@@ -324,12 +324,15 @@ class ShoppingCart {
         const currentPath = window.location.pathname;
         let checkoutPath;
         
-        if (currentPath.includes('/pages/')) {
-            // Already in pages directory
-            checkoutPath = 'checkout.html';
+        if (currentPath.includes('/shop/') || currentPath.includes('/admin/') || 
+            currentPath.includes('/policy/') || currentPath.includes('/shipping/') || 
+            currentPath.includes('/success/') || currentPath.includes('/faq/') ||
+            currentPath.includes('/login/') || currentPath.includes('/checkout/')) {
+            // In a subdirectory
+            checkoutPath = '../checkout/';
         } else {
-            // In root directory
-            checkoutPath = 'pages/checkout.html';
+            // In root directory  
+            checkoutPath = 'checkout/';
         }
 
         console.log('Redirecting to:', checkoutPath); // Debug log
