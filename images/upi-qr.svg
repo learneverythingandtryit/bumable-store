@@ -1,0 +1,15 @@
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#f8f9fa" stroke="#dee2e6" stroke-width="2"/>
+  <text x="150" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#6c757d">
+    UPI QR Code
+  </text>
+  <text x="150" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#6c757d">
+    saravanasachin286-1@okhdfcbank
+  </text>
+  <text x="150" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#6c757d">
+    Saravana Sachin
+  </text>
+  <text x="150" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#6c757d">
+    Replace with actual QR code
+  </text>
+</svg>
