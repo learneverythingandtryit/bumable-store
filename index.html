@@ -261,9 +261,9 @@
                                 <div class="quantity-selection">
                                     <label>Quantity:</label>
                                     <div class="quantity-controls">
-                                        <button onclick="event.stopPropagation(); changeQuantity('${product.id}', -1)" class="qty-btn">-</button>
+                                        <button type="button" onclick="event.stopPropagation(); changeQuantity('${product.id}', -1)" class="qty-btn">-</button>
                                         <span id="qty-display-${product.id}" class="qty-display">0</span>
-                                        <button onclick="event.stopPropagation(); changeQuantity('${product.id}', 1)" class="qty-btn">+</button>
+                                        <button type="button" onclick="event.stopPropagation(); changeQuantity('${product.id}', 1)" class="qty-btn">+</button>
                                     </div>
                                 </div>
                                 <button onclick="event.stopPropagation(); addProductToCart('${product.id}')" class="add-to-cart-btn" ${product.stockCount === 0 ? 'disabled' : ''}>
@@ -275,6 +275,28 @@
                 }).join("");
                 
                 console.log('Homepage products loaded successfully');
+                
+                // Add event listeners as backup for quantity buttons
+                setTimeout(function() {
+                    document.querySelectorAll('.qty-btn').forEach(button => {
+                        if (!button.hasAttribute('data-listener-added')) {
+                            button.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                const parentControls = button.closest('.quantity-controls');
+                                if (parentControls) {
+                                    const qtyDisplay = parentControls.querySelector('.qty-display');
+                                    if (qtyDisplay) {
+                                        const productId = qtyDisplay.id.replace('qty-display-', '');
+                                        const change = button.textContent === '+' ? 1 : -1;
+                                        console.log('Event listener triggered for:', productId, change);
+                                        window.changeQuantity(productId, change);
+                                    }
+                                }
+                            });
+                            button.setAttribute('data-listener-added', 'true');
+                        }
+                    });
+                }, 1000);
             }
         </script>
         
@@ -335,7 +357,31 @@
             console.log('ProductManager available:', !!window.productManager);
             if (window.productManager) {
                 console.log('All products:', window.productManager.getAllProducts());
+                // Test with first product
+                const products = window.productManager.getAllProducts();
+                if (products.length > 0) {
+                    console.log('Testing quantity change with first product...');
+                    window.changeQuantity(products[0].id, 1);
+                }
             }
+        };
+        
+        // Direct test button for debugging
+        window.addTestButton = function() {
+            const testBtn = document.createElement('button');
+            testBtn.textContent = 'TEST QUANTITY';
+            testBtn.style.position = 'fixed';
+            testBtn.style.top = '100px';
+            testBtn.style.right = '20px';
+            testBtn.style.zIndex = '9999';
+            testBtn.style.backgroundColor = 'red';
+            testBtn.style.color = 'white';
+            testBtn.style.padding = '10px';
+            testBtn.onclick = function() {
+                console.log('Direct test clicked');
+                window.testQuantityFunction();
+            };
+            document.body.appendChild(testBtn);
         };
         
         // Auto-test when page loads
@@ -343,6 +389,7 @@
             setTimeout(function() {
                 console.log('=== QUANTITY FUNCTION TEST ===');
                 window.testQuantityFunction();
+                window.addTestButton();
             }, 2000);
         });
 
