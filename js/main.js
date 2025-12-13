@@ -12,6 +12,14 @@ document.addEventListener('DOMContentLoaded', function() {
         initProductSystem();
     }, 500);
     
+    // Additional fallback for product loading
+    setTimeout(function() {
+        if (!window.productManager) {
+            console.log('Fallback: Trying to initialize products again');
+            initProductSystem();
+        }
+    }, 2000);
+    
     // Initialize admin sync listening
     initAdminSync();
 });
@@ -66,6 +74,28 @@ function initNavigation() {
             navToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
         });
+    }
+}
+
+// Manual function to test product loading (for debugging)
+function testProductLoading() {
+    console.log('=== TESTING PRODUCT LOADING ===');
+    console.log('ProductManager available:', !!window.ProductManager);
+    console.log('productManager instance:', !!window.productManager);
+    
+    if (window.ProductManager) {
+        window.productManager = new ProductManager();
+        const products = window.productManager.getAllProducts();
+        console.log('Products found:', products.length);
+        console.log('First product:', products[0]);
+        
+        const shopGrid = document.querySelector('.products-grid');
+        console.log('Shop grid found:', !!shopGrid);
+        
+        if (shopGrid && products.length > 0) {
+            updateHomePageProducts(products);
+            console.log('Updated homepage products');
+        }
     }
 }
 

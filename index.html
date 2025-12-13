@@ -182,7 +182,9 @@
                 </div>
                 
                 <div class="products-grid" id="products-grid">
-                    <!-- Products will be loaded dynamically here -->
+                    <div style="text-align: center; padding: 2rem; border: 2px dashed #ccc; background: #f9f9f9; color: #666;">
+                        Loading products... If you see this message, JavaScript should replace it with products.
+                    </div>
                 </div>
             </div>
         </section>
@@ -387,6 +389,14 @@
                     }
                 });
             }
+            
+            // Manual product loading trigger for debugging
+            setTimeout(function() {
+                console.log('Manual trigger: Checking for products');
+                if (typeof testProductLoading === 'function') {
+                    testProductLoading();
+                }
+            }, 3000);
         });
     </script>
 </body>
