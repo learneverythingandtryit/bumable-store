@@ -193,11 +193,8 @@
             });
             
             function initHomepageShop() {
-                console.log('Initializing homepage shop section');
-                
                 // Make sure ProductManager is available
                 if (!window.ProductManager) {
-                    console.log('ProductManager not available, retrying...');
                     setTimeout(initHomepageShop, 500);
                     return;
                 }
@@ -228,8 +225,6 @@
                     grid.innerHTML = '<div style="text-align: center; padding: 2rem; color: #666;">No products available</div>';
                     return;
                 }
-                
-                console.log('Loading products:', products.length);
                 
                 // Set product grid using shop page logic
                 grid.innerHTML = products.map(product => {
@@ -274,11 +269,11 @@
                     `;
                 }).join("");
                 
-                console.log('Homepage products loaded successfully');
-                
                 // Add event listeners as backup for quantity buttons
                 setTimeout(function() {
-                    document.querySelectorAll('.qty-btn').forEach(button => {
+                    const qtyButtons = document.querySelectorAll('.qty-btn');
+                    
+                    qtyButtons.forEach((button) => {
                         if (!button.hasAttribute('data-listener-added')) {
                             button.addEventListener('click', function(e) {
                                 e.stopPropagation();
@@ -301,18 +296,15 @@
         window.changeQuantity = function(productId, change) {
             const qtyDisplay = document.getElementById(`qty-display-${productId}`);
             if (!qtyDisplay) {
-                console.error('Quantity display not found for product:', productId);
                 return;
             }
             
             if (!window.productManager) {
-                console.error('ProductManager not available');
                 return;
             }
             
             const product = window.productManager.getProduct(productId);
             if (!product) {
-                console.error('Product not found:', productId);
                 return;
             }
             
@@ -339,49 +331,6 @@
                 }
             }
         };
-
-        // Test function to verify function accessibility
-        window.testQuantityFunction = function() {
-            console.log('Test function works!');
-            console.log('changeQuantity function available:', typeof window.changeQuantity);
-            console.log('ProductManager available:', !!window.productManager);
-            if (window.productManager) {
-                console.log('All products:', window.productManager.getAllProducts());
-                // Test with first product
-                const products = window.productManager.getAllProducts();
-                if (products.length > 0) {
-                    console.log('Testing quantity change with first product...');
-                    window.changeQuantity(products[0].id, 1);
-                }
-            }
-        };
-        
-        // Direct test button for debugging
-        window.addTestButton = function() {
-            const testBtn = document.createElement('button');
-            testBtn.textContent = 'TEST QUANTITY';
-            testBtn.style.position = 'fixed';
-            testBtn.style.top = '100px';
-            testBtn.style.right = '20px';
-            testBtn.style.zIndex = '9999';
-            testBtn.style.backgroundColor = 'red';
-            testBtn.style.color = 'white';
-            testBtn.style.padding = '10px';
-            testBtn.onclick = function() {
-                console.log('Direct test clicked');
-                window.testQuantityFunction();
-            };
-            document.body.appendChild(testBtn);
-        };
-        
-        // Auto-test when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                console.log('=== QUANTITY FUNCTION TEST ===');
-                window.testQuantityFunction();
-                window.addTestButton();
-            }, 2000);
-        });
 
         window.selectCardSize = function(productId, size) {
             // Remove selected class from all size options for this product
@@ -961,22 +910,6 @@
                     }
                 });
             }
-            
-            // Manual product loading trigger for debugging
-            setTimeout(function() {
-                console.log('Manual trigger: Checking for products');
-                if (typeof testProductLoading === 'function') {
-                    testProductLoading();
-                }
-                
-                // Also try force loading
-                setTimeout(function() {
-                    if (typeof forceLoadProducts === 'function') {
-                        console.log('Trying force load...');
-                        forceLoadProducts();
-                    }
-                }, 1000);
-            }, 3000);
         });
     </script>
 </body>
