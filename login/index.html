@@ -80,7 +80,7 @@
 
         .form-group input {
             width: 100%;
-            padding: 15px 50px 15px 50px;
+            padding: 15px 20px;
             border: 2px solid #e1e5e9;
             border-radius: 10px;
             font-size: 1rem;
@@ -97,6 +97,8 @@
             box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
         }
 
+        /* Icon styles removed - clean text input design */
+        /*
         .form-group i {
             position: absolute;
             left: 15px;
@@ -120,6 +122,7 @@
             z-index: 2;
             pointer-events: auto;
         }
+        */
 
         .password-toggle:hover {
             color: #ff6b6b;
@@ -264,19 +267,12 @@
         <form class="login-form" id="login-form">
             <div class="form-group">
                 <label for="username">Username</label>
-                <div style="position: relative;">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="username" name="username" placeholder="Enter your username" required autocomplete="username">
-                </div>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required autocomplete="username">
             </div>
 
             <div class="form-group">
                 <label for="password">Password</label>
-                <div style="position: relative;">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password">
-                    <i class="fas fa-eye password-toggle" id="password-toggle" onclick="togglePassword()"></i>
-                </div>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password">
             </div>
 
             <button type="submit" class="login-btn" id="login-btn">
@@ -471,6 +467,8 @@
             document.getElementById('success-message').style.display = 'none';
         }
 
+        /*
+        // Password toggle function removed - no icon needed
         function togglePassword() {
             const passwordField = document.getElementById('password');
             const toggleIcon = document.getElementById('password-toggle');
@@ -485,6 +483,7 @@
                 toggleIcon.classList.add('fa-eye');
             }
         }
+        */
 
         // Security: Clear form on page unload
         window.addEventListener('beforeunload', function() {
