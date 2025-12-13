@@ -89,13 +89,16 @@ function initProductSystem() {
 // Update product display on website
 function updateProductDisplay() {
     if (!window.productManager) {
+        console.log('No productManager found');
         return;
     }
     
     const products = window.productManager.getAllProducts();
+    console.log('Products loaded:', products.length);
     
     // Update home page if we're on it
     if (window.location.pathname.includes('index.html') || window.location.pathname === '/' || window.location.pathname === '' || window.location.pathname.endsWith('/')) {
+        console.log('Updating homepage products');
         updateHomePageProducts(products);
     }
     
@@ -107,9 +110,12 @@ function updateProductDisplay() {
 
 // Update home page product showcase
 function updateHomePageProducts(products) {
+    console.log('updateHomePageProducts called with', products.length, 'products');
+    
     // Update product carousel if it exists
     const carousel = document.querySelector('.product-carousel');
     if (carousel) {
+        console.log('Found product carousel');
         // Clear existing products
         carousel.innerHTML = '';
         
@@ -124,11 +130,14 @@ function updateHomePageProducts(products) {
                 carousel.appendChild(productCard);
             });
         }
+    } else {
+        console.log('No product carousel found');
     }
     
     // Update shop section if it exists
     const shopGrid = document.querySelector('.products-grid');
     if (shopGrid) {
+        console.log('Found products-grid, loading', products.length, 'products');
         shopGrid.innerHTML = '';
         
         if (products.length === 0) {
@@ -139,6 +148,8 @@ function updateHomePageProducts(products) {
                 shopGrid.appendChild(productCard);
             });
         }
+    } else {
+        console.log('No products-grid found');
     }
 }
 
@@ -155,9 +166,12 @@ function createHomeProductCard(product) {
     const salePrice = product.salePrice || product.regularPrice;
     const discountPercent = product.onSale ? Math.round((1 - salePrice / product.regularPrice) * 100) : 0;
     
+    // Fix image path for homepage (remove ../ if present)
+    const imagePath = product.image.replace('../', '');
+    
     card.innerHTML = `
         <div class="product-image">
-            <img src="${product.image}" alt="${product.name}" onerror="this.src='images/placeholder-product.svg'">
+            <img src="${imagePath}" alt="${product.name}" onerror="this.src='images/placeholder-product.svg'">
             ${product.onSale ? `<span class="sale-badge">${discountPercent}% OFF</span>` : ''}
         </div>
         <div class="product-info">
@@ -198,8 +212,11 @@ function createShopProductCard(product) {
     const salePrice = product.onSale ? product.salePrice : product.regularPrice;
     const discountPercent = product.onSale ? Math.round(((product.regularPrice - product.salePrice) / product.regularPrice) * 100) : 0;
     
+    // Fix image path for homepage (remove ../ if present)
+    const imagePath = product.image.replace('../', '');
+    
     card.innerHTML = `
-        <div class="product-image" style="background-image: url('${product.image}')">
+        <div class="product-image" style="background-image: url('${imagePath}')">
             ${product.onSale ? `<div class="product-badge">${discountPercent}% OFF</div>` : ''}
         </div>
         <div class="product-content">
