@@ -468,17 +468,20 @@
                         <h4>UPI Payment Details</h4>
                         <div class="upi-id">UPI ID: saravanasachin286-1@okhdfcbank</div>
                         <div class="qr-code">
-                            <div class="qr-placeholder">
-                                <div class="qr-info">
-                                    <i class="fas fa-qrcode" style="font-size: 3rem; color: #4285f4; margin-bottom: 15px;"></i>
-                                    <p><strong>Pay using UPI</strong></p>
-                                    <p>Open any UPI app and enter:</p>
-                                    <div class="upi-details-box">
-                                        <p><strong>UPI ID:</strong> saravanasachin286-1@okhdfcbank</p>
-                                        <p><strong>Name:</strong> Saravana Sachin</p>
+                            <!-- Actual QR Code Image - Replace this with your QR code -->
+                            <div class="qr-display">
+                                <div class="qr-frame">
+                                    <img src="../images/qr-code.png" alt="UPI QR Code for saravanasachin286-1@okhdfcbank" 
+                                         style="width: 200px; height: 200px; border: 2px solid #f0f0f0; border-radius: 10px; display: block; margin: 0 auto;"
+                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                    <div class="qr-fallback" style="display: none; width: 200px; height: 200px; border: 2px dashed #4285f4; border-radius: 10px; margin: 0 auto; display: flex; align-items: center; justify-content: center; flex-direction: column; background: #f8f9ff;">
+                                        <i class="fas fa-qrcode" style="font-size: 3rem; color: #4285f4; margin-bottom: 10px;"></i>
+                                        <p style="color: #666; font-size: 0.9rem; text-align: center;">Upload qr-code.png<br>to images folder</p>
                                     </div>
                                 </div>
                             </div>
+                            <p>Scan QR code to pay with any UPI app</p>
+                            <p><strong>Saravana Sachin</strong></p>
                         </div>
                     </div>
                 </div>
