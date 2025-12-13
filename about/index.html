@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story - BUMABLE</title>
+    <meta name="description" content="Learn about BUMABLE's journey to revolutionize men's underwear with style and confidence.">
+    
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">
+                    <a href="../" style="text-decoration: none; color: inherit;">
+                        <h1 class="logo">BUMABLE</h1>
+                    </a>
+                </div>
+                
+                <div class="nav-menu" id="nav-menu">
+                    <ul class="nav-list">
+                        <li><a href="../" class="nav-link">Home</a></li>
+                        <li><a href="../shop/" class="nav-link">Shop</a></li>
+                        <li><a href="../about/" class="nav-link active">Our Story</a></li>
+                        <li><a href="../#contact" class="nav-link">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="nav-actions">
+                    <button class="btn-notifications" id="notifications-btn" onclick="toggleNotifications()" title="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count" id="notification-count" style="display: none;">0</span>
+                    </button>
+                    <button class="btn-cart" onclick="toggleCart()">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                    <button class="nav-toggle" id="nav-toggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- About Page Content -->
+    <main class="about-page">
+        <!-- Hero Section -->
+        <section class="about-hero">
+            <div class="container">
+                <div class="about-hero-content">
+                    <h1 class="about-title">Our Story</h1>
+                    <p class="about-subtitle">Mom approved. Girlfriend removed.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Content -->
+        <section class="story-content">
+            <div class="container">
+                <div class="story-grid">
+                    <div class="story-text">
+                        <h2>The BUMABLE Revolution</h2>
+                        <p>BUMABLE was born from a simple yet powerful idea: men's underwear should be as bold and confident as the men who wear them. We believe that what you wear underneath should make you feel unstoppable, whether you're conquering a boardroom or owning the weekend.</p>
+                        
+                        <p>Our journey began when we realized that most men's underwear was either boring or uncomfortable—never both stylish and practical. We set out to change that, creating premium underwear that doesn't just fit perfectly, but makes a statement.</p>
+                        
+                        <h3>Why BUMABLE?</h3>
+                        <p>The name says it all. BUMABLE underwear is designed for men who aren't afraid to stand out, who understand that confidence starts from the inside out. Our tagline "Mom approved. Girlfriend removed." captures the perfect balance we've achieved—underwear that's respectable enough for family dinner, yet irresistible enough to make that special someone take notice.</p>
+                    </div>
+                    
+                    <div class="story-image">
+                        <img src="../images/about-story.jpg" alt="BUMABLE Story" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section class="values-section">
+            <div class="container">
+                <h2 class="section-title">Our Values</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Quality First</h3>
+                        <p>We use only premium materials and expert craftsmanship to ensure every piece meets our high standards.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Comfort & Style</h3>
+                        <p>Our designs balance ultimate comfort with eye-catching style, so you never have to choose between the two.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>Confidence</h3>
+                        <p>Every BUMABLE piece is designed to boost your confidence and help you own every moment.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission Section -->
+        <section class="mission-section">
+            <div class="container">
+                <div class="mission-content">
+                    <h2>Our Mission</h2>
+                    <p class="mission-text">To revolutionize men's underwear by creating pieces that embody confidence, style, and comfort. We're not just selling underwear—we're selling an attitude, a lifestyle, and the belief that every man deserves to feel extraordinary in his own skin.</p>
+                    
+                    <div class="mission-cta">
+                        <a href="../shop/" class="btn-cta">Discover Our Collection</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="cart-close" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                Total: $<span id="cart-total">0.00</span>
+            </div>
+            <button class="btn-checkout" onclick="proceedToCheckout()">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Notification Panel -->
+    <div class="notification-panel" id="notification-panel">
+        <div class="notification-header">
+            <h3>Notifications</h3>
+            <button class="notification-close" onclick="toggleNotifications()">&times;</button>
+        </div>
+        <div class="notification-list" id="notification-list">
+            <p class="no-notifications">No new notifications</p>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="../">Home</a></li>
+                        <li><a href="../shop/">Shop</a></li>
+                        <li><a href="../about/">About</a></li>
+                        <li><a href="../#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Policies</h3>
+                    <ul class="footer-links">
+                        <li><a href="../policy/">Store Policy</a></li>
+                        <li><a href="../shipping/">Shipping & Returns</a></li>
+                        <li><a href="../faq/">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Connect</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Bumable Clothing. All rights reserved.</p>
+                <div class="footer-admin">
+                    <a href="../login/" class="admin-link">Admin</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/main.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/github-database-complete.js"></script>
+    
+    <style>
+        .about-page {
+            padding-top: 80px;
+            min-height: calc(100vh - 160px);
+        }
+
+        .about-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .about-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .about-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .story-content {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .story-text h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .story-text h3 {
+            font-size: 1.8rem;
+            color: #555;
+            margin: 2rem 0 1rem;
+        }
+
+        .story-text p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .story-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .values-section {
+            padding: 80px 0;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .value-card {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .value-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .value-card h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .value-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .mission-section {
+            background: #333;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .mission-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .mission-text {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            opacity: 0.9;
+        }
+
+        .mission-cta .btn-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .mission-cta .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .about-title {
+                font-size: 2.2rem;
+            }
+
+            .story-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .story-text h2 {
+                font-size: 2rem;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</body>
+</html>

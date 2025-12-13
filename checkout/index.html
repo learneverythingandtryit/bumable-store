@@ -381,9 +381,8 @@
                         <h4>UPI Payment Details</h4>
                         <div class="upi-id">UPI ID: saravanasachin286-1@okhdfcbank</div>
                         <div class="qr-code">
-                            <img src="../images/upi-qr.svg" alt="UPI QR Code" id="upi-qr">
                             <p>Scan QR code to pay with any UPI app</p>
-                            <p><small>Saravana Sachin</small></p>
+                            <p><strong>Saravana Sachin</strong></p>
                         </div>
                     </div>
                 </div>
@@ -490,8 +489,10 @@
             const upiDetails = document.getElementById('upi-details');
             if (method === 'upi') {
                 upiDetails.classList.add('active');
+                document.getElementById('transaction-id').required = true;
             } else {
                 upiDetails.classList.remove('active');
+                document.getElementById('transaction-id').required = false;
             }
         }
 
