@@ -276,80 +276,100 @@
                 
                 console.log('Homepage products loaded successfully');
             }
+        </script>
+        
+        <script>
+        // Shop page functions for homepage - moved to global scope
+        window.changeQuantity = function(productId, change) {
+            const qtyDisplay = document.getElementById(`qty-display-${productId}`);
+            if (!qtyDisplay) return;
+            
+            if (!window.productManager) {
+                console.error('ProductManager not available');
+                return;
+            }
+            
+            const product = window.productManager.getProduct(productId);
+            if (!product) return;
+            
+            let currentQty = parseInt(qtyDisplay.textContent) || 0;
+            let newQty = currentQty + change;
+            
+            // Minimum quantity is 0
+            if (newQty < 0) newQty = 0;
+            
+            // Maximum quantity is stock count or 10, whichever is smaller
+            const maxQty = Math.min(product.stockCount, 10);
+            if (newQty > maxQty) newQty = maxQty;
+            
+            qtyDisplay.textContent = newQty;
+            
+            // If modal is open for this product, sync the modal quantity too
+            if (window.currentModalProduct && window.currentModalProduct.id === productId) {
+                window.modalQuantity = newQty;
+                const modalQtyDisplay = document.getElementById('modalQtyDisplay');
+                if (modalQtyDisplay) {
+                    modalQtyDisplay.value = window.modalQuantity;
+                    if (typeof updateQuantityButtons === 'function') updateQuantityButtons();
+                    if (typeof updateAddToCartButton === 'function') updateAddToCartButton();
+                }
+            }
+        };
 
-            // Shop page functions for homepage
-            window.changeQuantity = function(productId, change) {
-                const qtyDisplay = document.getElementById(`qty-display-${productId}`);
-                if (!qtyDisplay) return;
-                
-                const product = window.productManager.getProduct(productId);
-                if (!product) return;
-                
-                let currentQty = parseInt(qtyDisplay.textContent) || 0;
-                let newQty = currentQty + change;
-                
-                // Minimum quantity is 0
-                if (newQty < 0) newQty = 0;
-                
-                // Maximum quantity is stock count or 10, whichever is smaller
-                const maxQty = Math.min(product.stockCount, 10);
-                if (newQty > maxQty) newQty = maxQty;
-                
-                qtyDisplay.textContent = newQty;
-            };
+        window.selectCardSize = function(productId, size) {
+            // Remove selected class from all size options for this product
+            const sizeOptions = document.querySelectorAll(`[data-product-id="${productId}"].card-size-option`);
+            sizeOptions.forEach(opt => opt.classList.remove('selected'));
+            
+            // Add selected class to clicked option
+            const selectedOption = document.querySelector(`[data-product-id="${productId}"][data-size="${size}"]`);
+            if (selectedOption) {
+                selectedOption.classList.add('selected');
+            }
+        };
 
-            window.selectCardSize = function(productId, size) {
-                // Remove selected class from all size options for this product
-                const sizeOptions = document.querySelectorAll(`[data-product-id="${productId}"].card-size-option`);
-                sizeOptions.forEach(opt => opt.classList.remove('selected'));
-                
-                // Add selected class to clicked option
-                const selectedOption = document.querySelector(`[data-product-id="${productId}"][data-size="${size}"]`);
-                if (selectedOption) {
-                    selectedOption.classList.add('selected');
-                }
-            };
+        window.addProductToCart = function(productId) {
+            const selectedSizeElement = document.querySelector(`[data-product-id="${productId}"].card-size-option.selected`);
+            const qtyDisplay = document.getElementById(`qty-display-${productId}`);
+            
+            if (!window.productManager) return;
+            
+            const product = window.productManager.getProduct(productId);
+            if (!product) return;
+            
+            // Check if product is in stock
+            if (product.stockCount === 0) {
+                showNotification('Product is out of stock', 'error');
+                return;
+            }
+            
+            if (!selectedSizeElement) {
+                showNotification('Please select a size', 'warning');
+                return;
+            }
+            
+            const selectedSize = selectedSizeElement.getAttribute('data-size');
+            const selectedQuantity = parseInt(qtyDisplay.textContent) || 0;
+            
+            // Check if quantity is greater than 0
+            if (selectedQuantity === 0) {
+                showNotification('Please select a quantity greater than 0', 'warning');
+                return;
+            }
+            
+            // Validate quantity against stock
+            if (selectedQuantity > product.stockCount) {
+                showNotification(`Only ${product.stockCount} items available in stock`, 'error');
+                return;
+            }
 
-            window.addProductToCart = function(productId) {
-                const selectedSizeElement = document.querySelector(`[data-product-id="${productId}"].card-size-option.selected`);
-                const qtyDisplay = document.getElementById(`qty-display-${productId}`);
-                
-                const product = window.productManager.getProduct(productId);
-                if (!product) return;
-                
-                // Check if product is in stock
-                if (product.stockCount === 0) {
-                    showNotification('Product is out of stock', 'error');
-                    return;
-                }
-                
-                if (!selectedSizeElement) {
-                    showNotification('Please select a size', 'warning');
-                    return;
-                }
-                
-                const selectedSize = selectedSizeElement.getAttribute('data-size');
-                const selectedQuantity = parseInt(qtyDisplay.textContent) || 0;
-                
-                // Check if quantity is greater than 0
-                if (selectedQuantity === 0) {
-                    showNotification('Please select a quantity greater than 0', 'warning');
-                    return;
-                }
-                
-                // Validate quantity against stock
-                if (selectedQuantity > product.stockCount) {
-                    showNotification(`Only ${product.stockCount} items available in stock`, 'error');
-                    return;
-                }
-
-                // Call the cart system's addToCart function with proper parameters
-                addToCart(productId, selectedSize, selectedQuantity);
-                
-                // Reset form and quantity back to 0
-                selectedSizeElement.classList.remove('selected');
-                qtyDisplay.textContent = '0';
-            };
+            // Call the cart system's addToCart function with proper parameters
+            addToCart(productId, selectedSize, selectedQuantity);
+            
+            // Reset form and quantity back to 0
+            selectedSizeElement.classList.remove('selected');
+            qtyDisplay.textContent = '0';
+        };
         </script>
 
         <!-- About Section -->
@@ -572,16 +592,20 @@
     
     <script>
         // Global variables for modal
-        let currentModalProduct = null;
-        let modalQuantity = 1;
+        window.currentModalProduct = null;
+        window.modalQuantity = 0; // Start with 0 to match homepage default
         
         // Open product modal
         function openProductModal(productId) {
             const product = window.productManager.getProduct(productId);
             if (!product) return;
             
-            currentModalProduct = product;
-            modalQuantity = 1;
+            window.currentModalProduct = product;
+            
+            // Get current quantity from homepage card
+            const homepageQtyDisplay = document.getElementById(`qty-display-${productId}`);
+            const currentHomepageQty = homepageQtyDisplay ? parseInt(homepageQtyDisplay.textContent) || 0 : 0;
+            window.modalQuantity = Math.max(0, currentHomepageQty); // Sync with homepage, min 0
             
             // Update modal content
             document.getElementById('modalProductName').textContent = product.name;
@@ -650,9 +674,9 @@
                 sizeGrid.appendChild(sizeOption);
             });
             
-            // Reset quantity display
+            // Reset quantity display to sync with homepage
             const qtyDisplay = document.getElementById('modalQtyDisplay');
-            qtyDisplay.value = modalQuantity;
+            qtyDisplay.value = window.modalQuantity;
             updateQuantityButtons();
             updateAddToCartButton();
             
@@ -714,12 +738,21 @@
         // Modal quantity change
         function changeModalQuantity(delta) {
             const qtyDisplay = document.getElementById('modalQtyDisplay');
-            const currentQty = parseInt(qtyDisplay.value);
+            const currentQty = parseInt(qtyDisplay.value) || 0; // Default to 0 if invalid
             const newQuantity = currentQty + delta;
             
-            if (newQuantity >= 1 && newQuantity <= 10) {
-                modalQuantity = newQuantity;
-                qtyDisplay.value = modalQuantity;
+            // Allow 0 minimum, max 10
+            if (newQuantity >= 0 && newQuantity <= 10) {
+                window.modalQuantity = newQuantity;
+                qtyDisplay.value = window.modalQuantity;
+                
+                // Update homepage quantity to stay in sync
+                if (window.currentModalProduct) {
+                    const homepageQtyDisplay = document.getElementById(`qty-display-${window.currentModalProduct.id}`);
+                    if (homepageQtyDisplay) {
+                        homepageQtyDisplay.textContent = window.modalQuantity;
+                    }
+                }
                 
                 qtyDisplay.style.transform = 'scale(1.05)';
                 setTimeout(() => {
@@ -738,32 +771,44 @@
             const increaseBtn = buttons[1];
             
             if (decreaseBtn) {
-                decreaseBtn.disabled = modalQuantity <= 1;
-                decreaseBtn.style.opacity = modalQuantity <= 1 ? '0.3' : '1';
+                decreaseBtn.disabled = window.modalQuantity <= 0; // Allow decrease to 0
+                decreaseBtn.style.opacity = window.modalQuantity <= 0 ? '0.3' : '1';
             }
             
             if (increaseBtn) {
-                increaseBtn.disabled = modalQuantity >= 10;
-                increaseBtn.style.opacity = modalQuantity >= 10 ? '0.3' : '1';
+                increaseBtn.disabled = window.modalQuantity >= 10;
+                increaseBtn.style.opacity = window.modalQuantity >= 10 ? '0.3' : '1';
             }
         }
         
-        // Update Add to Cart button
+        // Update Add to Cart button based on quantity and size
         function updateAddToCartButton() {
             const addToCartBtn = document.getElementById('modalAddToCartBtn');
             if (addToCartBtn) {
-                addToCartBtn.disabled = false;
-                addToCartBtn.style.opacity = '1';
-                addToCartBtn.textContent = 'ADD TO CART';
+                if (window.modalQuantity === 0) {
+                    addToCartBtn.disabled = true;
+                    addToCartBtn.style.opacity = '0.6';
+                    addToCartBtn.textContent = 'Select Quantity';
+                } else {
+                    addToCartBtn.disabled = false;
+                    addToCartBtn.style.opacity = '1';
+                    addToCartBtn.textContent = 'ADD TO CART';
+                }
             }
         }
         
         // Add to cart from modal
         function addModalProductToCart() {
-            if (!currentModalProduct) return;
+            if (!window.currentModalProduct) return;
             
             const sizeSelector = document.getElementById('modalSizeSelector');
             const addToCartBtn = document.getElementById('modalAddToCartBtn');
+            
+            // Check quantity first
+            if (window.modalQuantity === 0) {
+                alert('Please select quantity greater than 0');
+                return;
+            }
             
             // Check size selection
             if (!sizeSelector.value) {
@@ -785,7 +830,7 @@
             
             setTimeout(() => {
                 // Use the cart system
-                addToCart(currentModalProduct.id, sizeSelector.value, modalQuantity);
+                addToCart(window.currentModalProduct.id, sizeSelector.value, window.modalQuantity);
                 
                 // Success state
                 addToCartBtn.classList.remove('loading');
