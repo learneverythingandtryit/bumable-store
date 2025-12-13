@@ -826,10 +826,97 @@ a {
 }
 
 .logo {
-    font-size: 28px;
-    font-weight: 700;
-    color: #ff6b6b;
-    letter-spacing: 2px;
+    font-size: 32px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 50%, #ff4757 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: logoGlow 3s ease-in-out infinite alternate;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logo::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, #ff6b6b, #ff8e53, #ff4757);
+    border-radius: 8px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    filter: blur(8px);
+}
+
+.logo:hover::before {
+    opacity: 0.3;
+}
+
+.logo:hover {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 8px 16px rgba(255, 107, 107, 0.4));
+}
+
+@keyframes logoGlow {
+    0% {
+        background-position: 0% 50%;
+        filter: brightness(1);
+    }
+    50% {
+        filter: brightness(1.2);
+    }
+    100% {
+        background-position: 100% 50%;
+        filter: brightness(1);
+    }
+}
+
+.logo-icon {
+    display: inline-block;
+    background: linear-gradient(45deg, #ff4757, #ff6b6b);
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    animation: pulse 2s ease-in-out infinite;
+    position: relative;
+    top: -2px;
+}
+
+.logo-dot {
+    color: #ff4757;
+    font-size: 1.2em;
+    animation: bounce 2s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
 }
 
 .nav-list {
